@@ -1,0 +1,31 @@
+version: "3.9"
+
+services:
+  api:
+    build: ./backend
+    container_name: hotel-comparator-api
+    restart: unless-stopped
+    env_file:
+      - backend/.env.example
+    environment:
+      - DATABASE_URL=${DATABASE_URL:-postgresql+asyncpg://hotel_admin:devpassword@db:5432/hotel_cache}
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+
+  db:
+    image: postgres:15-alpine
+    container_name: hotel-comparator-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: hotel_admin
+      POSTGRES_PASSWORD: devpassword
+      POSTGRES_DB: hotel_cache
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
