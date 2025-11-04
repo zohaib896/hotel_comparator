@@ -16,6 +16,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={inter.variable}>
+      <head>
+        {/* Agoda verification meta tag required during partner onboarding */}
+        <meta name="agd-partner-manual-verification" />
+      </head>
       <body className="min-h-screen bg-slate-100 text-slate-900">
         {children}
       </body>
